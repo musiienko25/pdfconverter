@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PDFViewer from "./PdfViewer";
+import PDFViewer from "./PdfViewerPage";
 
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
@@ -7,12 +7,13 @@ import Input from "../components/Input";
 
 const CreatePdfPage = () => {
   const [url, setUrl] = useState(null);
+  const [inputValue, setInputValue] = useState("");
 
   async function createPDF() {
     const apiUrl =
       "http://95.217.134.12:4010/create-pdf?apiKey=78684310-850d-427a-8432-4a6487f6dbc4";
     const data = {
-      text: "Universe",
+      text: inputValue,
     };
 
     try {
@@ -43,8 +44,6 @@ const CreatePdfPage = () => {
       console.error("Error:", error);
     }
   }
-
-  const [inputValue, setInputValue] = useState("");
 
   const handleChange = (event) => {
     setInputValue(event.target.value);
