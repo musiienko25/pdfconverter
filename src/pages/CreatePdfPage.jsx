@@ -3,6 +3,7 @@ import PDFViewer from "./PdfViewer";
 
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
+import Input from "../components/Input";
 
 const CreatePdfPage = () => {
   const [url, setUrl] = useState(null);
@@ -43,9 +44,16 @@ const CreatePdfPage = () => {
     }
   }
 
+  const [inputValue, setInputValue] = useState("");
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
   return (
     <div>
       <h1>Create Pdf Page</h1>
+      <Input value={inputValue} onChange={handleChange} />
       <PDFViewer pdfURL={url} />
       <button onClick={createPDF}>Create PDF</button>
     </div>
