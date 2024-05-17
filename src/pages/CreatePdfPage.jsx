@@ -32,6 +32,8 @@ const CreatePdfPage = () => {
       const blob = await response.blob();
       const blobUrl = window.URL.createObjectURL(blob);
 
+      window.open(blobUrl, "_blank");
+
       const a = document.createElement("a");
       a.href = blobUrl;
       a.download = "output.pdf";
