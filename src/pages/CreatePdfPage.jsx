@@ -1,36 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PDFViewer from "./PdfViewerPage";
-import { Font } from "@react-pdf/renderer";
-
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import "react-pdf/dist/esm/Page/TextLayer.css";
 import Input from "../components/Input";
-
-Font.register({
-  family: "Roboto",
-  fonts: [
-    {
-      src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
-      fontWeight: 300,
-    },
-    {
-      src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf",
-      fontWeight: 400,
-    },
-    {
-      src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-medium-webfont.ttf",
-      fontWeight: 500,
-    },
-    {
-      src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf",
-      fontWeight: 600,
-    },
-  ],
-});
 
 const CreatePdfPage = () => {
   const [url, setUrl] = useState(null);
   const [inputValue, setInputValue] = useState("");
+  const [history, setHistory] = useState(() => {
+    const savedHistory = JSON.parse(localStorage.getItem("pdfHistory")) || [];
+    return savedHistory;
+  });
+
+  useEffect(() => {
+    const savedHistory = JSON.parse(localStorage.getItem("pdfHistory")) || [];
+    setHistory(savedHistory);
+
+    if (savedHistory.length > 0) {
+      setUrl(savedHistory[savedHistory.length - 1].url);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("pdfHistory", JSON.stringify(history));
+  }, [history]);
 
   async function createPDF() {
     const apiUrl =
@@ -53,18 +44,16 @@ const CreatePdfPage = () => {
       }
 
       const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
+      const blobUrl = URL.createObjectURL(blob); // Створення URL з об'єкта blob
+      const fileName = `output_${Date.now()}.pdf`; // Генерація імені файлу
 
-      window.open(blobUrl, "_blank");
+      // window.open(blobUrl, "_blank");
 
-      const a = document.createElement("a");
-      a.href = blobUrl;
-      a.download = "output.pdf";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
+      const newHistoryItem = { name: fileName, url: blobUrl, blob: blob }; // Додали blob до історії
+      setHistory([...history, newHistoryItem]);
       setUrl(blobUrl);
+
+      setInputValue("");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -74,12 +63,28 @@ const CreatePdfPage = () => {
     setInputValue(event.target.value);
   };
 
+  const handleHistoryItemClick = (clickedItem) => {
+    setUrl(clickedItem.url); // Зміна URL при кліку на елемент історії
+  };
+
   return (
     <div>
       <h1>Create Pdf Page</h1>
       <Input value={inputValue} onChange={handleChange} />
-      <PDFViewer pdfURL={url} />
-      <button onClick={createPDF}>Create PDF</button>
+      <button onClick={createPDF}>Convert to PDF</button>
+
+      <div>
+        <h2>Conversion History</h2>
+        <ul>
+          {history.map((item, index) => (
+            <li key={index} onClick={() => handleHistoryItemClick(item)}>
+              {item.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <PDFViewer pdfURL={url || "No PDF file selected"} />
     </div>
   );
 };
