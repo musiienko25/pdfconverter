@@ -19,19 +19,20 @@ const PDFViewer = ({ pdfURL }) => {
   };
 
   return (
-    <div className="pdf-viewer">
+    <div className="pdf-viewer p-4 border rounded-lg shadow-md">
       {pdfURL ? (
         <Document
           file={pdfURL}
           onLoadSuccess={onDocumentLoadSuccess}
           onLoadError={onDocumentLoadError}
+          className="mx-auto"
         >
           {Array.from(new Array(numPages), (el, index) => (
-            <Page key={index} pageNumber={index + 1} />
+            <Page key={index} pageNumber={index + 1} className="my-2 mx-auto" />
           ))}
         </Document>
       ) : (
-        <p>No PDF file selected</p>
+        <p className="text-gray-500">No PDF file selected</p>
       )}
       {error && <p className="text-red-500">Error loading PDF: {error}</p>}
     </div>

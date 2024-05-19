@@ -98,7 +98,7 @@ const CreatePdfPage = () => {
         </button>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8 mb-8">
         <h2 className="text-xl font-semibold text-gray-700">
           Conversion History
         </h2>
