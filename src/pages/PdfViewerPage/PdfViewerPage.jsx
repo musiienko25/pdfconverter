@@ -20,7 +20,7 @@ const PDFViewer = ({ pdfURL }) => {
           </Worker>
         </div>
       ) : (
-        <p className="text-gray-500">No PDF file selected</p>
+        <p className="text-gray-500">PDF не вибрано</p>
       )}
       {error && <p className="text-red-500">Error loading PDF: {error}</p>}
     </div>
