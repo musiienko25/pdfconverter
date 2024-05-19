@@ -1,36 +1,24 @@
 import React, { useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+import { Viewer, Worker } from "@react-pdf-viewer/core";
+import "@react-pdf-viewer/core/lib/styles/index.css";
 
 const PDFViewer = ({ pdfURL }) => {
-  const [numPages, setNumPages] = useState(null);
   const [error, setError] = useState(null);
 
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-    setError(null);
-  };
-
-  const onDocumentLoadError = (error) => {
+  const handleError = (error) => {
     setError(error.message);
   };
 
   return (
-    <div className="pdf-viewer p-4 border rounded-lg shadow-md">
+    <div className="pdf-viewer p-4 ">
       {pdfURL ? (
-        <Document
-          file={pdfURL}
-          onLoadSuccess={onDocumentLoadSuccess}
-          onLoadError={onDocumentLoadError}
-          className="mx-auto"
-        >
-          {Array.from(new Array(numPages), (el, index) => (
-            <Page key={index} pageNumber={index + 1} className="my-2 mx-auto" />
-          ))}
-        </Document>
+        <div style={{ height: "750px" }}>
+          <Worker
+            workerUrl={`//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js`}
+          >
+            <Viewer fileUrl={pdfURL} onError={handleError} />
+          </Worker>
+        </div>
       ) : (
         <p className="text-gray-500">No PDF file selected</p>
       )}
