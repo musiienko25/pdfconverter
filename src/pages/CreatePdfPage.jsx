@@ -68,16 +68,35 @@ const CreatePdfPage = () => {
   };
 
   return (
-    <div>
-      <h1>Create Pdf Page</h1>
-      <Input value={inputValue} onChange={handleChange} />
-      <button onClick={createPDF}>Convert to PDF</button>
+    <div className="p-6 font-sans">
+      <h1 className="text-2xl font-bold text-center text-gray-800">
+        Create Pdf
+      </h1>
+      <div className="mt-4 text-center">
+        <Input
+          value={inputValue}
+          onChange={handleChange}
+          className="border rounded py-2 px-4 w-full"
+        />
+        <button
+          onClick={createPDF}
+          className="mt-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
+        >
+          Convert to PDF
+        </button>
+      </div>
 
-      <div>
-        <h2>Conversion History</h2>
-        <ul>
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold text-gray-700">
+          Conversion History
+        </h2>
+        <ul className="list-disc list-inside mt-2">
           {history.map((item, index) => (
-            <li key={index} onClick={() => handleHistoryItemClick(item)}>
+            <li
+              key={index}
+              onClick={() => handleHistoryItemClick(item)}
+              className="cursor-pointer text-blue-500 hover:underline"
+            >
               {item.name}
             </li>
           ))}
