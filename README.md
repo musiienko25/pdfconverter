@@ -19,6 +19,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 Runs the app all tests
 
-### Result
+## Result
 
 ![Запис екрана 2024-05-19 о 17 22 36](https://github.com/musiienko25/pdfconverter/assets/42385970/45e4f045-83c9-4431-92ec-e3c7e048be72)
