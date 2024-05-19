@@ -4,7 +4,7 @@ The project has a simple structure: at this stage of development, it is divided 
 
 The library [https://react-pdf-viewer.dev/](react-pdf-viewer) is used to display the Pdf itself.
 
-.env file specially downloaded for convenience. You can't do that in commercial projects!
+.env file specially uploaded for convenience. You can't do that in commercial projects!
 
 ## Available Scripts
 
