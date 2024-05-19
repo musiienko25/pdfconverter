@@ -1,5 +1,5 @@
 import "./App.css";
-import CreatePdfPage from "./pages/CreatePdfPage";
+import CreatePdfPage from "./pages/CreatePdfPage/CreatePdfPage";
 
 function App() {
   return (

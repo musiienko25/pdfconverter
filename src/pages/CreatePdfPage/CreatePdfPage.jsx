@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import PDFViewer from "./PdfViewerPage";
-import Input from "../components/Input";
-import { createPDFRequest } from "../api/api";
+import PDFViewer from "../PdfViewerPage/PdfViewerPage";
+import Input from "../../components/Input/Input";
+import { createPDFRequest } from "../../api/api";
 import localforage from "localforage";
 
 const CreatePdfPage = () => {
