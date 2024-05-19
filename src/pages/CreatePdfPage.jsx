@@ -88,7 +88,7 @@ const CreatePdfPage = () => {
         <Input
           value={inputValue}
           onChange={handleChange}
-          className="border rounded py-2 px-4 w-full"
+          className="border rounded py-2 px-4 w-full m-8"
         />
         <button
           onClick={createPDF}
