@@ -11,7 +11,7 @@ const PDFViewer = ({ pdfURL }) => {
 
   return (
     <div className="pdf-viewer p-4 ">
-      {pdfURL ? (
+      {pdfURL !== "No PDF file selected" ? (
         <div style={{ height: "750px" }}>
           <Worker
             workerUrl={`//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js`}
