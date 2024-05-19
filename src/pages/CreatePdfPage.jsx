@@ -107,7 +107,7 @@ const CreatePdfPage = () => {
             <li
               key={index}
               onClick={() => handleHistoryItemClick(item)}
-              className="cursor-pointer text-blue-500 hover:underline"
+              className="cursor-pointer text-blue-500 hover:underline list-none"
             >
               {item.name}
             </li>
