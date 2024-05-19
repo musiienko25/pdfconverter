@@ -11,6 +11,7 @@ const CreatePdfPage = () => {
     const savedHistory = JSON.parse(localStorage.getItem("pdfHistory")) || [];
     return savedHistory;
   });
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const savedHistory = JSON.parse(localStorage.getItem("pdfHistory")) || [];
@@ -56,6 +57,16 @@ const CreatePdfPage = () => {
     loadBlob(clickedItem.name);
   };
 
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(history.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = history
+    .slice(indexOfFirstItem, indexOfLastItem)
+    .reverse();
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="p-6 font-sans">
       <h1 className="text-2xl font-bold text-center text-gray-800">
@@ -80,7 +91,7 @@ const CreatePdfPage = () => {
           Історія конвертацій
         </h2>
         <ul className="list-disc list-inside mt-2">
-          {history.map((item, index) => (
+          {currentItems.map((item, index) => (
             <li
               key={index}
               onClick={() => handleHistoryItemClick(item)}
@@ -90,6 +101,23 @@ const CreatePdfPage = () => {
             </li>
           ))}
         </ul>
+        {/* Pagination */}
+        <nav className="mt-4 flex justify-center" aria-label="Page navigation">
+          <ul className="flex">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <li key={index} className="page-item">
+                <button
+                  onClick={() => paginate(index + 1)}
+                  className={`${
+                    currentPage === index + 1 ? "bg-blue-500 text-white" : ""
+                  } px-3 py-1 rounded hover:bg-blue-500 hover:text-white`}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
       <PDFViewer pdfURL={url || "No PDF file selected"} />
