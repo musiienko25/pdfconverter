@@ -13,6 +13,6 @@ describe("CreatePdfPage", () => {
 
   it('displays "No PDF file selected" if no PDF is generated', () => {
     const { getByText } = render(<CreatePdfPage />);
-    expect(getByText("No PDF file selected")).toBeInTheDocument();
+    expect(getByText("PDF не вибрано")).toBeInTheDocument();
   });
 });
