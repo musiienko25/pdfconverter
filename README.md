@@ -18,3 +18,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 ### `npm test`
 
 Runs the app all tests
+
+### Result
+![pdfConverter (1)](https://github.com/musiienko25/pdfconverter/assets/42385970/c47bc2c0-e284-42c9-a613-cdc0b68f3e7e)
