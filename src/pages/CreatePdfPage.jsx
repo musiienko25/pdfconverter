@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PDFViewer from "./PdfViewerPage";
 import Input from "../components/Input";
+import { createPDFRequest } from "../api/api";
 import localforage from "localforage";
 
 const CreatePdfPage = () => {
@@ -33,34 +34,10 @@ const CreatePdfPage = () => {
   };
 
   async function createPDF() {
-    const apiUrl =
-      "http://95.217.134.12:4010/create-pdf?apiKey=78684310-850d-427a-8432-4a6487f6dbc4";
-    const data = {
-      text: inputValue,
-    };
-
     try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const fileName = await createPDFRequest(inputValue);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const blob = await response.blob();
-      if (blob.type !== "application/pdf") {
-        throw new Error("Invalid PDF structure");
-      }
-
-      const fileName = `output_${Date.now()}.pdf`;
-      await localforage.setItem(fileName, blob);
-
-      const blobUrl = URL.createObjectURL(blob);
+      const blobUrl = URL.createObjectURL(await localforage.getItem(fileName));
       const newHistoryItem = { name: fileName, url: blobUrl };
       setHistory([...history, newHistoryItem]);
       setUrl(blobUrl);
