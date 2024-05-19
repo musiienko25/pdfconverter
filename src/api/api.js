@@ -1,8 +1,7 @@
 import localforage from "localforage";
 
 export async function createPDFRequest(inputValue) {
-  const apiUrl =
-    "http://95.217.134.12:4010/create-pdf?apiKey=78684310-850d-427a-8432-4a6487f6dbc4";
+  const apiUrl = `http://95.217.134.12:4010/create-pdf?apiKey=${process.env.REACT_APP_API_KEY}`;
   const data = {
     text: inputValue,
   };
