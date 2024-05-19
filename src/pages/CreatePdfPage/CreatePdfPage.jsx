@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PDFViewer from "../PdfViewerPage/PdfViewerPage";
 import Input from "../../components/Input/Input";
 import { createPDFRequest } from "../../api/api";
