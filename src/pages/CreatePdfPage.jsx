@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PDFViewer from "./PdfViewerPage";
 import Input from "../components/Input";
+import localforage from "localforage";
 
 const CreatePdfPage = () => {
   const [url, setUrl] = useState(null);
@@ -15,13 +16,21 @@ const CreatePdfPage = () => {
     setHistory(savedHistory);
 
     if (savedHistory.length > 0) {
-      setUrl(savedHistory[savedHistory.length - 1].url);
+      loadBlob(savedHistory[savedHistory.length - 1].name);
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("pdfHistory", JSON.stringify(history));
   }, [history]);
+
+  const loadBlob = async (fileName) => {
+    const blob = await localforage.getItem(fileName);
+    if (blob) {
+      const blobUrl = URL.createObjectURL(blob);
+      setUrl(blobUrl);
+    }
+  };
 
   async function createPDF() {
     const apiUrl =
@@ -44,12 +53,15 @@ const CreatePdfPage = () => {
       }
 
       const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob); // Створення URL з об'єкта blob
-      const fileName = `output_${Date.now()}.pdf`; // Генерація імені файлу
+      if (blob.type !== "application/pdf") {
+        throw new Error("Invalid PDF structure");
+      }
 
-      // window.open(blobUrl, "_blank");
+      const fileName = `output_${Date.now()}.pdf`;
+      await localforage.setItem(fileName, blob);
 
-      const newHistoryItem = { name: fileName, url: blobUrl, blob: blob }; // Додали blob до історії
+      const blobUrl = URL.createObjectURL(blob);
+      const newHistoryItem = { name: fileName, url: blobUrl };
       setHistory([...history, newHistoryItem]);
       setUrl(blobUrl);
 
@@ -64,7 +76,7 @@ const CreatePdfPage = () => {
   };
 
   const handleHistoryItemClick = (clickedItem) => {
-    setUrl(clickedItem.url); // Зміна URL при кліку на елемент історії
+    loadBlob(clickedItem.name);
   };
 
   return (
